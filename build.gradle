@@ -23,6 +23,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     // Spring web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Spring Data REST
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    // HAL Explorer
+    implementation 'org.springframework.data:spring-data-rest-hal-explorer'
     // Spring boot DevTools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     // Lombok
