@@ -42,6 +42,9 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     // Spring boot configuration processor
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    // Spring security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
