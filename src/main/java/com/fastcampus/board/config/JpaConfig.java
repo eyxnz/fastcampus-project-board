@@ -12,6 +12,6 @@ import java.util.Optional;
 public class JpaConfig {
     @Bean
     public AuditorAware<String> auditorAware() {
-        return () -> Optional.of("2yxxn"); // TODO: 스프링 시큐리티로 인증 기능을 붙이게 될 때, 수정할 예정
+        return () -> Optional.of("eyxnz"); // TODO: 스프링 시큐리티로 인증 기능을 붙이게 될 때, 수정할 예정
     }
 }
