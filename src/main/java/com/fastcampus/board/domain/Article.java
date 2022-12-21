@@ -16,7 +16,7 @@ import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString
+@ToString(callSuper = true)
 @Table(indexes = { // 검색에 필요한 속성들
         @Index(columnList = "title"),
         @Index(columnList = "hashtag"),
@@ -30,12 +30,14 @@ public class Article { // 게시글
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter @ManyToOne(optional = false) private UserAccount userAccount; // 유저 정보 (ID)
+
     @Setter @Column(nullable = false) private String title; // 제목
     @Setter @Column(nullable = false, length = 10000) private String content; // 본문
     @Setter private String hashtag; // 해시태그
 
     @ToString.Exclude
-    @OrderBy("id")
+    @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
 
@@ -46,14 +48,15 @@ public class Article { // 게시글
     @LastModifiedDate @Column(nullable = false) private LocalDateTime modifiedAt; // 수정일시
     @LastModifiedBy @Column(nullable = false, length = 100) private String modifiedBy; // 수정자
 
-    private Article(String title, String content, String hashtag) {
+    private Article(UserAccount userAccount, String title, String content, String hashtag) {
+        this.userAccount = userAccount;
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
     }
 
-    public static Article of(String title, String content, String hashtag) {
-        return new Article(title, content, hashtag);
+    public static Article of(UserAccount userAccount, String title, String content, String hashtag) {
+        return new Article(userAccount, title, content, hashtag);
     }
 
     // 동일성, 동등성 검사
