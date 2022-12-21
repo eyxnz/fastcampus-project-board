@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(callSuper = true)
+@ToString
 @Table(indexes = { // 검색에 필요한 속성들
         @Index(columnList = "content"),
         @Index(columnList = "createdAt"),
