@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -87,5 +88,20 @@ public class ArticleService {
     // 총 게시글 개수 리턴
     public long getArticleCount() {
         return articleRepository.count();
+    }
+
+    // 해시태그를 사용해서 게시글 검색
+    @Transactional(readOnly = true)
+    public Page<ArticleDto> searchArticlesViaHashtag(String hashtag, Pageable pageable) {
+        if (hashtag == null || hashtag.isBlank()) {
+            return Page.empty(pageable);
+        }
+
+        return articleRepository.findByHashtag(hashtag, pageable).map(ArticleDto::from);
+    }
+
+    // 해시태그 리스트 리턴
+    public List<String> getHashtags() {
+        return articleRepository.findAllDistinctHashtags();
     }
 }
