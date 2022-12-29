@@ -11,7 +11,7 @@ public record ArticleCommentResponse(
         LocalDateTime createdAt,
         String email,
         String nickname
-) implements Serializable { // implements Serializable : 우리가 만든 클래스가 파일에 읽거나 쓸 수 있도록 하거나, 다른 서버로 보내거나 받을 수 있도록 하려면 추가
+) {
     public static ArticleCommentResponse of(Long id, String content, LocalDateTime createdAt, String email, String nickname) {
         return new ArticleCommentResponse(id, content, createdAt, email, nickname);
     }
