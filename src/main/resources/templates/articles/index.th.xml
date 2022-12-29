@@ -4,6 +4,7 @@
     <attr sel="#footer" th:replace="footer :: footer" />
 
     <attr sel="main" th:object="${articles}">
+        <attr sel="#search-form" th:action="@{/articles}" th:method="get" />
         <attr sel="#search-type" th:remove="all-but-first">
             <attr sel="option[0]"
                   th:each="searchType : ${searchTypes}"
@@ -41,6 +42,9 @@
                     searchValue=${param.searchValue}
                  )}"/>
             </attr>
+
+            <!-- 게시글 쓰기 버튼 -->
+            <attr sel="#write-article" th:href="@{/articles/form}" />
 
             <attr sel="tbody" th:remove="all-but-first">
                 <!-- th:remove="all-but-first" : 첫 번째 child 만 남기고 지우겠다 -->
