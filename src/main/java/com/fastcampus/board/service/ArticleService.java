@@ -1,10 +1,12 @@
 package com.fastcampus.board.service;
 
 import com.fastcampus.board.domain.Article;
-import com.fastcampus.board.domain.type.SearchType;
+import com.fastcampus.board.domain.UserAccount;
+import com.fastcampus.board.domain.constant.SearchType;
 import com.fastcampus.board.dto.ArticleDto;
 import com.fastcampus.board.dto.ArticleWithCommentsDto;
 import com.fastcampus.board.repository.ArticleRepository;
+import com.fastcampus.board.repository.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,7 @@ import java.util.List;
 @Service
 public class ArticleService {
     private final ArticleRepository articleRepository;
+    private final UserAccountRepository userAccountRepository;
 
     // 게시글 검색
     // 페이지네이션을 이용하기 위해서 Page 사용
@@ -43,22 +46,31 @@ public class ArticleService {
         };
     }
 
-    // 게시글 상세 페이지
+    // 게시글 상세 페이지 - 댓글 포함
     @Transactional(readOnly = true)
-    public ArticleWithCommentsDto getArticle(Long articleId) {
+    public ArticleWithCommentsDto getArticleWithComments(Long articleId) {
         // .orElseThrow : optional 을 까주는데 예외 처리도 해줌
         return articleRepository.findById(articleId)
                 .map(ArticleWithCommentsDto::from)
                 .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다 - articleId: " + articleId));
     }
 
+    // 게시글 상세 페이지 - 댓글 미포함
+    @Transactional(readOnly = true)
+    public ArticleDto getArticle(Long articleId) {
+        return articleRepository.findById(articleId)
+                .map(ArticleDto::from)
+                .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다 - articleId: " + articleId));
+    }
+
     // 게시글 생성
     public void saveArticle(ArticleDto dto) {
-        articleRepository.save(dto.toEntity());
+        UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().userId());
+        articleRepository.save(dto.toEntity(userAccount));
     }
 
     // 게시글 수정
-    public void updateArticle(ArticleDto dto) {
+    public void updateArticle(Long articleId, ArticleDto dto) {
         try {
             // getReferenceById : findById 와 다르게 select 쿼리를 날리지 않음
             Article article = articleRepository.getReferenceById(dto.id());
