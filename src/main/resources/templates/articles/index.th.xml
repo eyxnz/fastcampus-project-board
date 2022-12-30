@@ -43,9 +43,6 @@
                  )}"/>
             </attr>
 
-            <!-- 게시글 쓰기 버튼 -->
-            <attr sel="#write-article" th:href="@{/articles/form}" />
-
             <attr sel="tbody" th:remove="all-but-first">
                 <!-- th:remove="all-but-first" : 첫 번째 child 만 남기고 지우겠다 -->
                 <attr sel="tr[0]" th:each="article : ${articles}"> <!-- 치환 -->
@@ -56,6 +53,9 @@
                 </attr>
             </attr>
         </attr>
+
+        <!-- 게시글 쓰기 버튼 -->
+        <attr sel="#write-article" th:href="@{/articles/form}" />
 
         <!-- 네비게이션바 -->
         <attr sel="#pagination">
