@@ -20,6 +20,7 @@ public interface ArticleCommentRepository extends
 {
     // 게시글 id 로 댓글 리스트 가져오기
     List<ArticleComment> findByArticle_Id(Long articleId);
+    void deleteByIdAndUserAccount_UserId(Long articleCommentId, String userId);
 
     @Override
     default void customize(QuerydslBindings bindings, QArticleComment root) {
