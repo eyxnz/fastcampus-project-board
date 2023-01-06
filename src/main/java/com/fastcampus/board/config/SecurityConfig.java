@@ -25,7 +25,8 @@ public class SecurityConfig {
                                 HttpMethod.GET,
                                 "/",
                                 "/articles",
-                                "/articles/search-hashtag"
+                                "/articles/search-hashtag",
+                                "/signup"
                         ).permitAll() // 인증에 상관 없이 공개하겠다
                         .anyRequest().authenticated() // 나머지는 인증이 필요
                 )
